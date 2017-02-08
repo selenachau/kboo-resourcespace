@@ -1090,7 +1090,10 @@ if (!$videojs && $use_mp3_player && file_exists($mp3realpath) && $access==0)
 
 </table>
 
-
+<?php
+hook("additionalresourcetools3");
+ } 
+if(!hook("replaceactionslistopen")){?>
 <ul id="ResourceToolsContainer">
 <?php
 } # end hook("replaceactionslistopen")
@@ -1218,7 +1221,7 @@ if(!hook('replaceactionslistclose')){
 </ul>
 <?php } # end hook('replaceactionslistclose') ?>
 <div class="clearerleft"> </div>
-
+<br/><a href="<?php echo dirname(get_resource_path($ref,false,'pre',false)). "/metadumpCombined.xml";?>" target="_blank"><img src="https://cdn2.iconfinder.com/data/icons/files-coding/24/files-coding-xml-128.png" width="15" />&nbsp;View xml file</a>
 <?php
 if (!hook("replaceuserratingsbox")){
 # Include user rating box, if enabled and the user is not external.
