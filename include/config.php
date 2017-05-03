@@ -58,6 +58,8 @@ $homeanim_folder = 'filestore/system/slideshow';
 $mysql_bin_path = 'D:\bitnami\mysql\bin';
 $imagemagick_path = 'D:\bitnami\imagemagick';
 $ghostscript_path = 'D:\bitnami\common\bin';
+$ffmpeg_path='D:\bitnami\ffmpeg-win64-static\bin';
+$exiftool_path='D:\bitnami\exiftool-10.42';
 
 #Paths
 $ftp_server = 'my.ftp.server';
@@ -65,7 +67,6 @@ $ftp_username = 'my_username';
 $ftp_password = 'my_password';
 $ftp_defaultfolder = 'temp/';
 $thumbs_display_fields = array(8,3);
-$list_display_fields = array(8,3,12);
 $sort_fields = array(12);
 
 $storagedir = 'D:\bitnami/apps/resourcespace/htdocs/filestore/';
@@ -91,7 +92,7 @@ The following configuration options are set for new installations only.
 This provides a mechanism for enabling new features for new installations without affecting existing installations (as would occur with changes to config.default.php)
 
 */
-$list_display_fields = array(8,25,76,12); //Fields should correspond to title, description, Unique Identifier, date
+$list_display_fields = array(8,25,76,84,12); //Fields should correspond to title, description, Unique Identifier, date
 $list_search_results_title_trim=45;
 $disable_geocoding=true; 
 $enable_find_similar=false;
@@ -120,13 +121,63 @@ $file_upload_block_duplicates=true;
 $filename_field=100;
 $prefix_resource_id_to_filename=false;
 $download_filename_id_only = false;
-$propose_changes_always_allow =true;
 $hide_resource_share_link=false;
-$mysql_force_strict_mode=true;
-$embedded_data_user_select_fields=array(115,100);
-#$mysql_log_transactions=true;
-#$mysql_log_location="/var/resourcespace_backups/sql_log.sql";
-$metadata_report=false;
+$alternative_file_previews=true;
+$alternative_file_previews_batch=true;
+$alternative_file_previews_mouseover=true;
+$config_windows=true; # Enable work-arounds required when installed on Microsoft Windows systems
+
+# ===================================
+# Download settings
+# ===================================
+# Download option for items with primary image. If no primary image, message will say no access to download images.
+# Display the download as a 'save as' link instead of redirecting
+# the browser to the download (which sometimes causes a security warning).
+# For the Opera and Internet Explorer 7 browsers this will always be
+# enabled regardless of the below setting as these browsers
+# block automatic downloads by default.
+$save_as = false;
+# Iframe-based direct download from the view page (to avoid going to download.php)
+# note this is incompatible with $terms_download and the $download_usage features, and is overridden by $save_as
+$direct_download=false;
+$debug_direct_download=false; // set to true to see the download iframe for debugging purposes.
+$direct_download_allow_ie7=false; // ie7 blocks initial downloads but after allowing once, it seems to work, so this option is available (no guarantees).
+$direct_download_allow_ie8=false; // ie7 blocks initial downloads but after allowing once, it seems to work, so this option is available (no guarantees).
+$direct_download_allow_opera=false; // opera can also allow popups, but this is recommended off as well since by default it won't work for most users.
+
+# ===================================
+# Collection downloading settings
+# ===================================
+# Set $collection_download to true to enable download of collections as archives (e.g. zip files).
+# The setting below overrides - if true - the $zipcommand.
+# You also have to uncomment and set $collection_download_settings for it to work.
+# (And don't forget to set $archiver_path etc. in the path section.)
+$use_zip_extension=true;
+$collection_download = true;
+# The total size, in bytes, of the collection download possible PRIOR to zipping.
+# This prevents users from attempting very large downloads.
+$collection_download_max_size = 1024 * 1024 * 1024 * 100; # default 1GB.
+# Path to an archiver utility - uncomment and set the lines
+# below if download of collections is enabled ($collection_download = true)
+$archiver_path = 'C:\Program Files/7-Zip/';
+$archiver_executable = '7z.exe';
+$archiver_listfile_argument = "-@ <";
+
+# Zip configuration for collection download
+# This creates an option that the user can choose from
+$collection_download_settings[0]["name"] = 'ZIP';
+$collection_download_settings[0]["extension"] = 'zip';
+$collection_download_settings[0]["arguments"] = '-j';
+$collection_download_settings[0]["mime"] = 'application/zip';
+
+# Option to write a text file into zipped collections containing resource data
+$zipped_collection_textfile = true;
+# Set default option for text file download to "no"
+$zipped_collection_textfile_default_no = false;
+# Use the collection name in the downloaded zip filename
+# when downloading collections as a zip file?
+$use_collection_name_in_zip_name = true;
+
 
 $xml_metadump_dc_map=array
 	(
